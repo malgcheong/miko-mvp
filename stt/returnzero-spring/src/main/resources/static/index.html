@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio Transcription</title>
+</head>
+<body>
+<h1>Audio Transcription</h1>
+
+<form action="/api/tutorial/transcribe/file" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept="audio/*">
+    <button type="submit">Transcribe (file)</button>
+</form>
+
+<form action="/api/tutorial/transcribe/websocket/file" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept="audio/*">
+    <button type="submit">Transcribe (websocket)</button>
+</form>
+</body>
+</html>

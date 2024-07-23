@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Speech Recognition Example</title>
+</head>
+<body>
+    <h1>Speech Recognition Example</h1>
+    <button onclick="startRecognition()">Start Recognition</button>
+    <button onclick="stopRecognition()">Stop Recognition</button>
+    <p id="transcription"></p>
+
+    <script>
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = "ko-KR";
+
+        recognition.onstart = () => {
+            console.log("음성 인식 시작");
+        };
+
+        recognition.onend = () => {
+            console.log("음성 인식 종료");
+            recognition.start(); // 인식을 종료한 후 다시 시작 (continuous 모드처럼 동작)
+        };
+
+        recognition.onresult = (event) => {
+            let transcript = Array.from(event.results)
+                .map(result => result[0].transcript)
+                .join('');
+            console.log("음성 인식 결과:", transcript);
+            document.getElementById('transcription').innerText = transcript;
+        };
+
+        recognition.onerror = (event) => {
+            console.error("음성 인식 오류:", event.error);
+        };
+
+        function startRecognition() {
+            recognition.start();
+        }
+
+        function stopRecognition() {
+            recognition.stop();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time ASR</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Real-time ASR</h1>
+    <button id="startButton">Start Recording</button>
+    <button id="stopButton">Stop Recording</button>
+    <pre id="transcription"></pre>
+
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        let mediaRecorder;
+        let socket;
+        let chunks = [];
+
+        document.getElementById("startButton").addEventListener("click", async () => {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    const blob = new Blob([event.data], { type: 'audio/webm' });
+                    socket.emit('audio', blob);
+                }
+            };
+
+            mediaRecorder.start(1000);
+
+            socket = io.connect('http://localhost:5001');
+            socket.on('transcription', (data) => {
+                document.getElementById("transcription").innerText += data.text + '\n';
+            });
+        });
+
+        document.getElementById("stopButton").addEventListener("click", () => {
+            mediaRecorder.stop();
+        });
+    </script>
+</body>
+</html>
