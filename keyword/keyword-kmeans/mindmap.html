@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Keyword Mindmap</title>
+  <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <style type="text/css">
+    #mynetwork {
+      width: 900px;
+      height: 600px;
+      border: 1px solid lightgray;
+    }
+  </style>
+</head>
+<body>
+  <div id="mynetwork"></div>
+  <script type="text/javascript">
+    // JSON 데이터 로드 (nodes 및 edges 데이터 포함)
+    var graphData = {
+      "nodes": [
+        {"id": "\uc810\uc2ec", "label": "\uc810\uc2ec"}, 
+        {"id": "\ud559\uc2dd", "label": "\ud559\uc2dd"}, 
+        {"id": "\uc678\uc2dd", "label": "\uc678\uc2dd"}, 
+        // ... (나머지 노드 데이터 추가) ...
+      ],
+      "edges": [
+        // { "from": "점심", "to": "학식" },
+        // { "from": "점심", "to": "외식" },
+        // ... (나머지 연결 관계 추가) ...
+      ]
+    };
+
+    // Vis.js 네트워크 생성 (옵션 포함)
+    var container = document.getElementById('mynetwork');
+    var options = {
+      edges: {
+        arrows: 'to', 
+        color: 'lightgray'
+      }
+    };
+    var network = new vis.Network(container, graphData, options);
+  </script>
+</body>
+</html>
