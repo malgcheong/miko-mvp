@@ -29,10 +29,7 @@ accessToken = resp.json()['access_token']
 print(f"Access Token: {accessToken}")
 
 config = {
-    "use_diarization": True,
-    "diarization": {
-        "spk_count": 5
-    },
+    "use_diarization": False,
     "use_itn": False,
     "use_disfluency_filter": False,
     "use_profanity_filter": False,
@@ -48,7 +45,7 @@ resp = requests.post(
     'https://openapi.vito.ai/v1/transcribe',
     headers={'Authorization': 'bearer ' + accessToken},
     data={'config': json.dumps(config)},
-    files={'file': open('./test.m4a', 'rb')}
+    files={'file': open('miko-mvp/stt/test.m4a', 'rb')}
 )
 end_time = time.time()
 print(f"Transcription request submission took {end_time - start_time:.2f} seconds")
@@ -84,8 +81,8 @@ while True:
         print("Transcription failed.")
         break
     else:
-        print("Transcription in progress. Waiting for 5 seconds before checking again...")
-        time.sleep(5)
+        print("Transcription in progress. Waiting for 0.01 seconds before checking again...")
+        time.sleep(0.01)
 
 total_processing_time = processing_end_time - processing_start_time
 print(f"Total transcription processing time: {total_processing_time:.2f} seconds")

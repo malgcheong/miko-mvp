@@ -9,7 +9,7 @@ load_dotenv()
 
 class ClovaSpeechClient:
     # Clova Speech invoke URL
-    invoke_url = 'https://clovaspeech-gw.ncloud.com/external/v1/476'
+    invoke_url = os.getenv("CLOVA_URL")
     # Clova Speech secret key
     secret = os.getenv("CLOVA_SECRET")
 
@@ -103,7 +103,11 @@ class ClovaSpeechClient:
         return response
 
 if __name__ == '__main__':
+    start_time = time.time()  # 전체 변환 작업 시작 시간 기록
     # res = ClovaSpeechClient().req_url(url='http://example.com/media.mp3', completion='sync')
     # res = ClovaSpeechClient().req_object_storage(data_key='data/media.mp3', completion='sync')
-    res = ClovaSpeechClient().req_upload(file='./test.m4a', completion='sync')
+    res = ClovaSpeechClient().req_upload(file='miko-mvp/stt/test.m4a', completion='sync')
+    end_time = time.time()  # 전체 변환 작업 끝 시간 기록
+
     print(res.text)
+    print(f"Total transcription time: {end_time - start_time:.2f} seconds")  # 총 소요 시간 출력
